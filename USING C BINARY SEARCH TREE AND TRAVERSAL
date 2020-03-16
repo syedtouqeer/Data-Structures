@@ -1,0 +1,172 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct treeNode
+{
+        int data;
+        struct treeNode *left;
+        struct treeNode *right;
+
+}treeNode;
+
+treeNode* FindMin(treeNode *node)
+{
+        if(node==NULL)
+        {
+          return NULL;
+        }
+        if(node->left) /* Go to the left sub tree to find the min element */
+                return FindMin(node->left);
+        else 
+                return node;
+}
+treeNode * Insert(treeNode *node,int data)
+{
+        if(node==NULL)
+        {
+                treeNode *temp;
+                temp = (treeNode *)malloc(sizeof(treeNode));
+                temp -> data = data;
+                temp -> left = temp -> right = NULL;
+                return temp;
+        }
+
+        if(data >(node->data))
+        {
+                node->right = Insert(node->right,data);
+        }
+        else if(data < (node->data))
+        {
+                node->left = Insert(node->left,data);
+        }
+        /* Else there is nothing to do as the data is already in the tree. */
+        return node;
+}
+treeNode * Delete(treeNode *node, int data)
+{
+        treeNode *temp;
+        if(node==NULL)
+        {
+                printf("Element Not Found");
+        }
+        else if(data < node->data)
+        {
+                node->left = Delete(node->left, data);
+        }
+        else if(data > node->data)
+        {
+                node->right = Delete(node->right, data);
+        }
+        else
+        {
+                if(node->right && node->left)
+                
+                        temp = FindMin(node->right);
+                        node -> data = temp->data; 
+                        node -> right = Delete(node->right,temp->data);
+                }
+                else
+                {
+                        temp = node;
+                        if(node->left == NULL)
+                                node = node->right;
+                        else if(node->right == NULL)
+                                node = node->left;
+                        free(temp); 
+                }
+        }
+        return node;
+
+}
+
+treeNode * Find(treeNode *node, int data)
+{
+        if(node==NULL)
+        {
+                printf("key not found");
+                return NULL;
+        }
+        if(data > node->data)
+        {
+                return Find(node->right,data);
+        }
+        else if(data < node->data)
+        {
+                return Find(node->left,data);
+        }
+        else
+        {
+                /* Element Found */
+                printf("element found ");
+                return node;
+        }
+}
+
+void PrintInorder(treeNode *node)
+{
+        if(node==NULL)
+        {
+                return;
+        }
+        PrintInorder(node->left);
+        printf("%d ",node->data);
+        PrintInorder(node->right);
+}
+
+void PrintPreorder(treeNode *node)
+{
+        if(node==NULL)
+        {
+                return;
+        }
+        printf("%d ",node->data);
+        PrintPreorder(node->left);
+        PrintPreorder(node->right);
+}
+
+void PrintPostorder(treeNode *node)
+{
+        if(node==NULL)
+        {
+                return;
+        }
+        PrintPostorder(node->left);
+        PrintPostorder(node->right);
+        printf("%d ",node->data);
+}
+
+int main()
+{
+        treeNode *root = NULL;;
+        int x,c,y,z,w;
+        do
+        {
+            printf("Enter choice");
+            scanf("%d",&c);
+        switch(c)
+        {
+            case 1: printf("enter element to be inserted ");
+                    scanf("%d",&x);
+                    root = Insert(root, x);
+                    break;
+            case 2: printf("Enter element to be deleted");
+                    scanf("%d",&y);
+                    root = Delete(root,y);
+                    break;
+            case 3: printf("Enter element to be searched");
+                    scanf("%d",&z);
+                    w =Find(root,z);
+                    break;
+            case 4: PrintInorder(root);
+                    printf("\n");
+                    break;
+            case 5: PrintPostorder(root);
+                    break;
+            case 6: PrintPreorder(root);
+                    break;
+            case 7: printf("Exit point");
+                    break;
+        }
+        }while(c!=7);
+}
+
