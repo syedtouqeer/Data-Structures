@@ -1,0 +1,23 @@
+1.	#include <stdio.h>
+2.	int main()
+3.	{
+4.	  int array[100], search, c, n;
+5.	 printf("Enter number of elements in \n");
+6.	  scanf("%d", &n); 
+7.	  printf("Enter %d integer(s)\n", n);
+8.	   for (c = 0; c < n; c++)
+9.	    scanf("%d", &array[c]);
+10.	   printf("Enter a number to search\n");
+11.	  scanf("%d", &search);
+12.	   for (c = 0; c < n; c++)
+13.	  {
+14.	    if (array[c] == search)    
+15.	    {
+16.	 printf("%d is present at location %d.\n", search, c+1);
+17.	      break;
+18.	    }
+19.	  }
+20.	  if (c == n)
+ printf("%d isn't present in the array.\n", search);
+  return 0;
+21.	}
