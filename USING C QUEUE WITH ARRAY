@@ -1,0 +1,63 @@
+(4) Queue using Array
+
+#include<stdio.h>
+#define SIZE 10
+#include<stdlib.h>
+void enQueue(int *, int *,int *,int *);
+void deQueue(int *,int *,int *);
+void display(int *, int *, int *);
+void main()
+{
+      int queue[SIZE], front = -1, rear = -1;
+      int value, choice;
+      while(1){
+      printf("1. Insertion\n2. Deletion\n3. Display\n4. Exit");
+      printf("\nEnter your choice: ");
+      scanf("%d",&choice);
+      switch(choice){
+         case 1: printf("Enter the value to be insert: ");
+                 scanf("%d",&value);
+                 enQueue(&value,&front,&rear,&queue);
+                 break;
+         case 2: deQueue(&front,&rear,&queue);
+                 break;
+         case 3: display(&rear,&front,&queue);
+                 break;
+         case 4: exit(0);
+         default: printf("\nWrong selection");
+      }
+   }
+}
+void enQueue(int *value, int *front, int *rear, int *queue){
+   if(*rear == SIZE-1)
+      printf("\nQueue is Full");
+   else{
+      if(*front == -1)
+         *front = 0;
+      *rear+=1;
+      queue[*rear] = *value;
+   }
+}
+void deQueue(int *front, int *rear, int *queue)
+{
+   if(*front == *rear)
+      printf("\nQueue is Empty");
+   else{
+      printf("\nDeleted : %d\n", queue[*front]);
+      *front+=1;
+      if(*front == *rear)
+         *front = *rear = -1;
+   }
+}
+void display(int *rear, int *front, int *queue)
+{
+   if(*rear == -1)
+      printf("\nQueue is Empty");
+   else
+   {
+      int i;
+      printf("\nQueue elements are:\n");
+      for(i=*front; i<=*rear; i++)
+         printf("%d\t",queue[i]);
+   }
+}
